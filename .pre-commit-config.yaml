@@ -1,0 +1,32 @@
+# Pre-commit hooks mirror the CI gates so problems are caught before a push.
+# Install with: pre-commit install
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.14.4
+    hooks:
+      - id: ruff
+        args: [--fix]
+      - id: ruff-format
+
+  - repo: local
+    hooks:
+      - id: mypy
+        name: mypy
+        entry: mypy src
+        language: system
+        pass_filenames: false
+        types: [python]
+
+      - id: pytest
+        name: pytest (100% coverage)
+        entry: python -m pytest
+        language: system
+        pass_filenames: false
+        types: [python]
+
+      - id: rubric-check
+        name: tool-definition quality gate
+        entry: python scripts/rubric_check.py
+        language: system
+        pass_filenames: false
+        types: [python]
