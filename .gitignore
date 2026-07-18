@@ -10,6 +10,9 @@ dist/
 .venv/
 venv/
 
+# Stray data dirs created by co-resident MCP servers (e.g. Chroma vector stores)
+/data/
+
 # Test / coverage artifacts
 .pytest_cache/
 .mypy_cache/
