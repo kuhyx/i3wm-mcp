@@ -52,7 +52,7 @@ packages = ["src/i3wm_mcp"]
 
 [tool.ruff]
 line-length = 100
-target-version = "py310"
+target-version = "py314"
 src = ["src", "tests"]
 
 [tool.ruff.lint]
@@ -61,7 +61,7 @@ src = ["src", "tests"]
 select = ["E", "F", "I", "B", "UP", "C4", "SIM", "W"]
 
 [tool.mypy]
-python_version = "3.10"
+python_version = "3.14"
 packages = ["i3wm_mcp"]
 mypy_path = "src"
 strict = true
