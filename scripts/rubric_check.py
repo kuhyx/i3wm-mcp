@@ -7,7 +7,7 @@ the deterministic parts it checks — the hard gates and structural signals — 
 regression is caught before publishing. This script:
 
 * fails (exit 1) on any hard-gate violation (missing/tautological description,
-  annotation-contradiction, undescribed parameters, missing outputSchema);
+  annotation-contradiction, undescribed parameters, missing output_schema);
 * warns on soft signals (very short/long descriptions, no sibling reference,
   tool count outside 3-15, inconsistent naming);
 * prints a per-tool table plus the coherence-relevant server checks.
@@ -26,7 +26,7 @@ import anyio
 from i3wm_mcp.server import mcp
 
 # Verbs that imply mutation; a read-only tool whose description uses them would
-# contradict its readOnlyHint (Glama's instant transparency=1 gate).
+# contradict its read_only_hint (Glama's instant transparency=1 gate).
 _MUTATION_VERBS = re.compile(
     r"\b(close|kill|launch|delete|remove|move|set|toggle|focus|rename|exec|run|create|switch)\b",
     re.IGNORECASE,
@@ -54,16 +54,16 @@ def check() -> int:
 
     for t in sorted(tools, key=lambda x: x.name):
         desc = t.description or ""
-        props = (t.inputSchema or {}).get("properties", {})
+        props = (t.input_schema or {}).get("properties", {})
         described = [k for k, v in props.items() if v.get("description")]
         coverage = 100 if not props else round(100 * len(described) / len(props))
         ann = t.annotations
-        read_only = getattr(ann, "readOnlyHint", None)
-        destructive = getattr(ann, "destructiveHint", None)
+        read_only = getattr(ann, "read_only_hint", None)
+        destructive = getattr(ann, "destructive_hint", None)
 
         print(
             f"{t.name:22} {len(desc):>4} {len(props):>6} {coverage:>5} "
-            f"{'Y' if t.outputSchema else 'N':>3} {str(read_only):>5} {str(destructive):>4}"
+            f"{'Y' if t.output_schema else 'N':>3} {str(read_only):>5} {str(destructive):>4}"
         )
 
         # --- Hard gates -------------------------------------------------
@@ -73,13 +73,13 @@ def check() -> int:
             errors.append(f"{t.name}: tautological description (purpose capped at 2).")
         if coverage < 100:
             errors.append(f"{t.name}: parameter-schema coverage {coverage}% (<100%).")
-        if t.outputSchema is None:
-            errors.append(f"{t.name}: no outputSchema.")
+        if t.output_schema is None:
+            errors.append(f"{t.name}: no output_schema.")
         if ann is None or None in (
             read_only,
             destructive,
-            getattr(ann, "idempotentHint", None),
-            getattr(ann, "openWorldHint", None),
+            getattr(ann, "idempotent_hint", None),
+            getattr(ann, "open_world_hint", None),
         ):
             errors.append(f"{t.name}: incomplete annotations (need all four hints).")
         if read_only and _MUTATION_VERBS.search(desc) and "read-only" not in desc.lower():
@@ -106,8 +106,8 @@ def check() -> int:
     print(f"  tool count: {len(tools)} ({'in 3-15 ✓' if count_ok else 'OUT OF 3-15 ✗'})")
     if not count_ok:
         errors.append(f"tool count {len(tools)} outside the 3-15 coherence sweet spot.")
-    has_reads = any(getattr(t.annotations, "readOnlyHint", False) for t in tools)
-    has_mutations = any(not getattr(t.annotations, "readOnlyHint", True) for t in tools)
+    has_reads = any(getattr(t.annotations, "read_only_hint", False) for t in tools)
+    has_mutations = any(not getattr(t.annotations, "read_only_hint", True) for t in tools)
     print(f"  has read tools: {has_reads} · has mutation tools: {has_mutations}")
     if not (has_reads and has_mutations):
         warnings.append("server lacks both read and mutation tools (completeness).")

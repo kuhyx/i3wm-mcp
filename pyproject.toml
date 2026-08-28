@@ -1,6 +1,6 @@
 # Build + tooling manifest for the i3wm-mcp server.
 # The server is a small, self-contained MCP package; dependencies are pinned to
-# floor versions that expose the APIs we rely on (FastMCP structured output,
+# floor versions that expose the APIs we rely on (MCPServer structured output,
 # i3ipc asyncio, pydantic v2).
 [build-system]
 requires = ["hatchling"]
@@ -24,19 +24,19 @@ classifiers = [
     "Topic :: Desktop Environment :: Window Managers",
 ]
 dependencies = [
-    "mcp>=1.12",
-    "i3ipc>=2.2.1",
-    "pydantic>=2.6",
+    "mcp==2.1.1",
+    "i3ipc==2.2.1",
+    "pydantic==2.13.5",
 ]
 
 [project.optional-dependencies]
 dev = [
-    "pytest>=8",
-    "pytest-asyncio>=0.24",
-    "pytest-cov>=5",
-    "ruff>=0.6",
-    "mypy>=1.11",
-    "pre-commit>=3.8",
+    "pytest==9.1.1",
+    "pytest-asyncio==1.4.0",
+    "pytest-cov==7.1.0",
+    "ruff==0.16.5",
+    "mypy==2.3.1",
+    "pre-commit==4.6.2",
 ]
 
 [project.scripts]

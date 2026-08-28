@@ -1,4 +1,4 @@
-"""The i3wm-mcp FastMCP server: 13 tool definitions over the i3/Sway IPC.
+"""The i3wm-mcp server: 13 tool definitions over the i3/Sway IPC.
 
 Design choices that matter for tool-definition quality:
 
@@ -6,9 +6,9 @@ Design choices that matter for tool-definition quality:
   arguments, not a single wrapper model, so every parameter is a described,
   top-level entry in the ``inputSchema``.
 * **Typed returns.** Every tool returns a pydantic model from :mod:`.models`, so
-  FastMCP emits an ``outputSchema`` and the description need not restate the
+  MCPServer emits an ``outputSchema`` and the description need not restate the
   return shape.
-* **Honest annotations.** ``readOnlyHint``/``destructiveHint`` reflect real
+* **Honest annotations.** ``read_only_hint``/``destructive_hint`` reflect real
   behaviour and never contradict the prose description.
 * **Consolidated surface.** Rarely-used verbs (marks, gaps, i3bar, scratchpad
   show/hide, reload/restart) are reached through the guarded ``run_command``
@@ -22,7 +22,7 @@ from __future__ import annotations
 
 from typing import Annotated, Literal
 
-from mcp.server.fastmcp import FastMCP
+from mcp.server import MCPServer
 from mcp.types import ToolAnnotations
 from pydantic import Field
 
@@ -44,29 +44,28 @@ from .models import (
     WorkspaceListResult,
 )
 
-mcp = FastMCP("i3wm-mcp")
-# FastMCP has no version parameter; set the advertised server version directly so
-# clients see our package version rather than the mcp library's.
-mcp._mcp_server.version = __version__
+# mcp 2.x renamed FastMCP to MCPServer and gave it a real `version` argument,
+# so the advertised version no longer has to be poked into a private attribute.
+mcp = MCPServer("i3wm-mcp", version=__version__)
 
 # Single i3 gateway. Reassigned by tests to point at a fake connection.
 backend: I3Backend = I3Backend()
 
 # Annotation presets ---------------------------------------------------------
 _READ = ToolAnnotations(
-    readOnlyHint=True, destructiveHint=False, idempotentHint=True, openWorldHint=False
+    read_only_hint=True, destructive_hint=False, idempotent_hint=True, open_world_hint=False
 )
 _MUTATE = ToolAnnotations(
-    readOnlyHint=False, destructiveHint=False, idempotentHint=False, openWorldHint=False
+    read_only_hint=False, destructive_hint=False, idempotent_hint=False, open_world_hint=False
 )
 _MUTATE_IDEMPOTENT = ToolAnnotations(
-    readOnlyHint=False, destructiveHint=False, idempotentHint=True, openWorldHint=False
+    read_only_hint=False, destructive_hint=False, idempotent_hint=True, open_world_hint=False
 )
 _DESTRUCTIVE = ToolAnnotations(
-    readOnlyHint=False, destructiveHint=True, idempotentHint=False, openWorldHint=False
+    read_only_hint=False, destructive_hint=True, idempotent_hint=False, open_world_hint=False
 )
 _DESTRUCTIVE_OPEN = ToolAnnotations(
-    readOnlyHint=False, destructiveHint=True, idempotentHint=False, openWorldHint=True
+    read_only_hint=False, destructive_hint=True, idempotent_hint=False, open_world_hint=True
 )
 
 

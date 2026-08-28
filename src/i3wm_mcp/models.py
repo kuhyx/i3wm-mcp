@@ -1,6 +1,6 @@
 """Pydantic output models and shared enums for the i3wm-mcp tools.
 
-Every tool returns one of these models. FastMCP turns the return annotation into
+Every tool returns one of these models. MCPServer turns the return annotation into
 the tool's ``outputSchema``, so the ``Field(description=...)`` text here is part
 of the machine-readable contract the model sees — it documents *return* shape
 without the human description having to spell it out.

@@ -4,7 +4,7 @@ Usage::
 
     python -m i3wm_mcp        # or the installed `i3wm-mcp` script
 
-FastMCP's ``run()`` defaults to the stdio transport, which is what MCP clients
+MCPServer's ``run()`` defaults to the stdio transport, which is what MCP clients
 (Claude Code, Claude Desktop, the MCP Inspector) spawn and speak to.
 """
 
