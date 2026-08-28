@@ -32,7 +32,7 @@ def _rect(obj: Any) -> dict[str, int] | None:
             "width": int(rect.width),
             "height": int(rect.height),
         }
-    except (AttributeError, TypeError, ValueError):  # pragma: no cover - defensive
+    except AttributeError, TypeError, ValueError:  # pragma: no cover - defensive
         return None
 
 
