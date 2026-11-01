@@ -41,6 +41,12 @@ repos:
         language: system
         files: \.(md|markdown)$
 
+      # 250-line cap on every committed file; shared gate owns the exemptions.
+      - id: file-length
+        name: 250-line file-length cap
+        entry: scripts/check_file_length.sh
+        language: system
+
       # Every dependency on its ecosystem's newest STABLE release, exact-pinned
       # so the question is mechanically answerable at all.
       #
