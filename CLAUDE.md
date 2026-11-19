@@ -1,6 +1,7 @@
 ## Commands
 
 - run: `i3wm-mcp`
+- deploy: `scripts/deploy.sh`
 - test: `python -m pytest -q`
 - test-changed: `scripts/test_changed.sh`
 - lint: `ruff check .`
