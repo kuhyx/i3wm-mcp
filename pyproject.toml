@@ -26,7 +26,7 @@ classifiers = [
 dependencies = [
     "mcp==2.3.0",
     "i3ipc==2.2.1",
-    "pydantic==2.14.3",
+    "pydantic==2.14.4",
 ]
 
 [project.optional-dependencies]
@@ -34,7 +34,7 @@ dev = [
     "pytest==9.2.0",
     "pytest-asyncio==1.5.0",
     "pytest-cov==7.1.0",
-    "ruff==0.17.5",
+    "ruff==0.17.6",
     "mypy==2.4.1",
     "pre-commit==4.7.0",
 ]
