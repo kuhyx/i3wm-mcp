@@ -9,25 +9,27 @@ repos:
         args: [--fix]
       - id: ruff-format
 
+  # Python hooks run the repo dev venv (pip install -e ".[dev]"), not the
+  # PATH python: a caller with another venv first on PATH has no i3wm_mcp.
   - repo: local
     hooks:
       - id: mypy
         name: mypy
-        entry: mypy src
+        entry: .venv/bin/python -m mypy src
         language: system
         pass_filenames: false
         types: [python]
 
       - id: pytest
         name: pytest (100% coverage)
-        entry: python -m pytest
+        entry: .venv/bin/python -m pytest
         language: system
         pass_filenames: false
         types: [python]
 
       - id: rubric-check
         name: tool-definition quality gate
-        entry: python scripts/rubric_check.py
+        entry: .venv/bin/python scripts/rubric_check.py
         language: system
         pass_filenames: false
         types: [python]

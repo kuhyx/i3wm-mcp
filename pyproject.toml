@@ -27,7 +27,11 @@ dependencies = [
     "mcp==2.3.0",
     "i3ipc==2.2.1",
     "pydantic==2.14.4",
+    "kuhy-credit @ git+https://github.com/kuhyx/utils@kuhy-credit-v0.3.0#subdirectory=kuhy_credit",
 ]
+
+[tool.hatch.metadata]
+allow-direct-references = true
 
 [project.optional-dependencies]
 dev = [
@@ -69,6 +73,10 @@ strict = true
 [[tool.mypy.overrides]]
 module = ["i3ipc.*"]
 ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = ["kuhy_credit", "kuhy_credit.*"]
+follow_untyped_imports = true
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
