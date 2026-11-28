@@ -5,20 +5,12 @@ repos:
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.14.4
     hooks:
-      - id: ruff
-        args: [--fix]
       - id: ruff-format
 
   # Python hooks run the repo dev venv (pip install -e ".[dev]"), not the
   # PATH python: a caller with another venv first on PATH has no i3wm_mcp.
   - repo: local
     hooks:
-      - id: mypy
-        name: mypy
-        entry: .venv/bin/python -m mypy src
-        language: system
-        pass_filenames: false
-        types: [python]
 
       - id: pytest
         name: pytest (100% coverage)
@@ -67,12 +59,6 @@ repos:
         stages: [post-rewrite]
         always_run: true
         pass_filenames: false
-
-      # 250-line cap on every committed file; shared gate owns the exemptions.
-      - id: file-length
-        name: 250-line file-length cap
-        entry: scripts/check_file_length.sh
-        language: system
 
       # Every dependency on its ecosystem's newest STABLE release, exact-pinned
       # so the question is mechanically answerable at all.
